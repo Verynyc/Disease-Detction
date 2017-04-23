@@ -1,0 +1,32 @@
+function Q = Try(image)
+
+x=videoinput('winvideo',1);
+img=getsnapshot(x);
+fname='Image';
+imwrite(img,fname,'jpg');
+
+mask = false(size(img));
+mask(70,70) = true;
+W = graydiffweight(img, mask, 'GrayDifferenceCutoff', 25);
+thresh = 0.01;
+[BW, D] = imsegfmm(W, mask, thresh);
+figure
+imshow(BW)
+title('Segmented Image')
+figure
+imshow(D)
+title('Geodesic Distances')
+ 
+img1=imcrop(img,[250 250 200 200]);
+P=impixel(img1,100,100);
+disp(P)
+imshow(img1)
+if 270> P(1,1)> 250
+    if 240> P(1,2)>220 
+        if 220> P(1,3)>200
+    disp('healthy')
+        end
+    end
+else if disp('unhealthy')
+end
+end
